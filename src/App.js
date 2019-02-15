@@ -1,28 +1,50 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import './App.css';
 
-class App extends Component {
+import Nav from './Components/Nav'
+import BottomNav from './Components/BottomNav'
+import All from './Pages/All'
+import Fav from './Pages/Fav'
+import Routes from './Pages/Routes'
+
+
+const styles = {
+  root: {
+    width: '100%',
+    maxWidth: 500,
+  },
+};
+
+class App extends React.Component {
+
+  state = {
+    screen: 'all'
+  }
+
+  handleChange = (event, value) => {
+    this.setState({screen: value})
+  }
+
   render() {
+  
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Nav/>
+        {this.state.screen === 'all' ? <All/> : (null)}
+        {this.state.screen === 'fav' ? <Fav/> : (null)}
+        {this.state.screen === 'route' ? <Routes/> : (null)}
+        <BottomNav screen={this.state.screen} handleChange={this.handleChange}/>
       </div>
     );
   }
+  
 }
 
-export default App;
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
